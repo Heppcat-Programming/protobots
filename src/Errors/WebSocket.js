@@ -1,0 +1,14 @@
+exports["4000"] = "Unknown Error";
+exports["4001"] = "Unknown Opcode";
+exports["4002"] = "Decode Error";
+exports["4003"] = "Not Authenticated";
+exports["4004"] = "Authentication Failed";
+exports["4005"] = "Already Authenticated";
+exports["4007"] = "Invalid Sequence";
+exports["4008"] = "Rate Limited";
+exports["4009"] = "Session Timeout";
+exports["4010"] = "Invalid Shard";
+exports["4011"] = "Sharding Required";
+exports["4012"] = "Invalid API version";
+exports["4013"] = "Invalid Intents";
+exports["4014"] = "Disallowed Intent";

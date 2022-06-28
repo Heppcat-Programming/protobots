@@ -1,0 +1,26 @@
+{
+  "name": "protobots",
+  "version": "0.0.1",
+  "description": "Quickly Prototype Discord Bots",
+  "main": "src/index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Heppcat-Programming/protobots.git"
+  },
+  "keywords": [
+    "prototype",
+    "quickbot",
+    "discord",
+    "bots"
+  ],
+  "author": "Heppcat Programming",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/Heppcat-Programming/protobots/issues"
+  },
+  "homepage": "https://github.com/Heppcat-Programming/protobots#readme",
+  "dependencies": {
+    "ws": "^8.8.0"
+  }
+}
