@@ -15,5 +15,6 @@ module.exports = function (socket, data, client) {
       },
     })
   );
+  socket.heartbeat = true;
   heartbeat.start(socket, data.d.heartbeat_interval);
 };

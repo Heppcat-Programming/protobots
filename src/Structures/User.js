@@ -12,7 +12,7 @@ module.exports = class User {
     if (typeof data == "object") this._patch(data);
   }
   _patch(data) {
-    for (field in data) {
+    for (let field in data) {
       switch (field) {
         case "avatar":
           this[field] = `https://cdn.discordapp.com/${data[field]}.jpg`;

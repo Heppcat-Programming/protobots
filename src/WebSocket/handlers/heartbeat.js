@@ -6,14 +6,14 @@
  */
 function start(socket, heartbeatInterval) {
   setTimeout(() => {
-    socket.emit(
+    socket.send(
       JSON.stringify({
         op: 1,
         d: socket.s,
       })
     );
     if (socket.heartbeat) start(socket, heartbeatInterval);
-  }, heartbeatInterval * Math.random());
+  }, heartbeatInterval);
 }
 
 /**

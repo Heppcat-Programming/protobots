@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/Heppcat-Programming/protobots#readme",
   "dependencies": {
+    "node-fetch": "^2.6.7",
     "ws": "^8.8.0"
   }
 }
