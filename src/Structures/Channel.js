@@ -27,18 +27,20 @@ module.exports = class Channel {
    * @returns {Promise<Message>} The message object
    */
   async send(message) {
-    return new Request({
-      client: this.client,
-      endpoint: "channels/" + this.id + "/messages",
-      method: "POST",
-      data: {
-        content: message,
-      },
-    })
-      .call()
-      .then((m) => {
-        let Message = require("./Message");
-        return new Message(m);
-      });
+    return new Promise((resolve) => {
+      new Request({
+        client: this.client,
+        endpoint: "channels/" + this._channelId + "/messages",
+        method: "POST",
+        data: {
+          content: message,
+        },
+      })
+        .call()
+        .then((m) => {
+          let Message = require("./Message");
+          resolve(new Message(m));
+        });
+    });
   }
 };

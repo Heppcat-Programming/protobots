@@ -38,11 +38,9 @@ module.exports = class Request {
         },
       };
       if (this.data) params["body"] = JSON.stringify(this.data);
-      console.log(params);
       fetch(`${this.client.apiUrl}/${this.endpoint}`, params).then((r) => {
         r.json()
           .then((res) => {
-            console.log(res);
             if (res.code != 0 && r.status != 200)
               reject(
                 new Error(

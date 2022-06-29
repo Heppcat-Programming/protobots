@@ -47,8 +47,7 @@ module.exports = class Message {
       });
   }
   async reply(message) {
-    console.log(this._guildId);
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       new Request({
         client: this.client,
         endpoint: "channels/" + this._channelId + "/messages",
