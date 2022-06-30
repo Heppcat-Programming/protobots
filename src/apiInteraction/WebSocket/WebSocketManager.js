@@ -8,6 +8,7 @@ module.exports = class WebSocketManager {
   /**
    * Create the Websocket
    * @param {Client} client
+   * @private
    */
   constructor(client) {
     this.socket = new ws(

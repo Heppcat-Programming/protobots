@@ -18,6 +18,7 @@ module.exports = class Message {
   /**
    * The Message Object
    * @param {Object} data The data for the message
+   * @private
    */
   _patch(data) {
     for (let field in data) {

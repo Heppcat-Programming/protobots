@@ -1,3 +1,4 @@
+const TextCommand = require("./TextCommand");
 module.exports = class CommandManager {
   /**
    * Create a command manager
@@ -28,16 +29,22 @@ module.exports = class CommandManager {
   hasCommand(command) {
     return this.commands[command] ? true : false;
   }
+  /**
+   * Add a command to the command manager
+   * @param {TextCommand} command The command to add
+   * @throws {TypeError} If the command is not an instance of TextCommand
+   * @throws {ReferenceError} If the command does not have a response
+   * @throws {ReferenceError} If the command doesn't have a name
+   */
   addCommand(command) {
-    let Command = require("./TextCommand");
-    if (!command instanceof Command)
+    if (!command instanceof TextCommand)
       throw new TypeError("Command must be an instance of Command");
     if (!command.response)
       throw new ReferenceError("Command must have a response");
     if (!command.name) throw new ReferenceError("Command must have a name");
     this["commands"][command.name] = command;
   }
-  async respondToCommand(command, args, message) {
+  async _respondToCommand(command, args, message) {
     if (this.commands[command]) {
       let response = this.commands[command]._createResponse(args, message);
       if (this.commands[command].reply) message.reply(response);

@@ -15,6 +15,7 @@ module.exports = class Guild {
   /**
    * Patch the guild with the data
    * @param {Object} data The guild data
+   * @private
    */
   _patch(data) {
     for (let field in data) {

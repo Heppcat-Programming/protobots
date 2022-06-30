@@ -3,7 +3,9 @@
   "version": "0.0.1",
   "description": "Quickly Prototype Discord Bots",
   "main": "src/index.js",
-  "scripts": {},
+  "scripts": {
+    "docs": "node ./node_modules/jsdoc/jsdoc.js -c ./.jsdoc.conf.json"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Heppcat-Programming/protobots.git"
@@ -23,5 +25,8 @@
   "dependencies": {
     "node-fetch": "^2.6.7",
     "ws": "^8.8.0"
+  },
+  "devDependencies": {
+    "jsdoc": "^3.6.10"
   }
 }

@@ -14,6 +14,7 @@ module.exports = class Request {
    * @throws {ReferenceError} If the method is not provided
    * @throws {TypeError} If the client is not a Client
    * @throws {TypeError} If the data is not an object
+   * @private
    */
   constructor(data) {
     if (typeof data != "object") throw new TypeError("Data must be an object");

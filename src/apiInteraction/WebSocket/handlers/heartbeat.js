@@ -2,7 +2,7 @@
  * Start the heartbeat
  * @param {WebSocket} socket The websocket
  * @param {Integer} heartbeatInterval The heartbeat interval
- *
+ * @private
  */
 function start(socket, heartbeatInterval) {
   setTimeout(() => {
@@ -19,6 +19,7 @@ function start(socket, heartbeatInterval) {
 /**
  * Stop the heartbeat
  * @param {WebSocket} socket
+ * @private
  */
 function stop(socket) {
   socket.heartbeat = false;

@@ -15,6 +15,7 @@ module.exports = class Channel {
   /**
    * Patch the channel with the data
    * @param {Object} data The channel data
+   * @private
    */
   _patch(data) {
     for (let field in data) {

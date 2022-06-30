@@ -1,6 +1,14 @@
 const Embed = require("../../apiInteraction/Structures/Embed");
 
 module.exports = class TextCommand {
+  /**
+   * @param {data} data The command data
+   * @param {String} data.name The name of the command
+   * @param {String} data.description The description of the command
+   * @param {String} data.response The response of the command
+   * @param {Boolean} data.reply If the command should reply to the message
+   * @param {Boolean} data.allowBots If the command can be used by bots
+   */
   constructor(data) {
     if (typeof data === "object") this._patch(data);
   }
