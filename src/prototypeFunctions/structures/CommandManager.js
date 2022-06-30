@@ -46,12 +46,15 @@ module.exports = class CommandManager {
   }
   async _respondToCommand(command, args, message) {
     if (this.commands[command]) {
-      let response = this.commands[command]._createResponse(args, message);
-      if (this.commands[command].reply) message.reply(response);
-      else {
-        c = await message.getChannel();
-        c.send(response);
-      }
+      this.commands[command]
+        ._createResponse(args, message)
+        .then(async (response) => {
+          if (this.commands[command].reply) message.reply(response);
+          else {
+            c = await message.getChannel();
+            c.send(response);
+          }
+        });
     }
   }
 };

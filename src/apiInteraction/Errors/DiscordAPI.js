@@ -1,5 +1,5 @@
 exports.getMessages = function (errors) {
-  if (!errors.errors && errors.message) return errors.message;
+  if (errors.message) return errors.message;
   let e = [];
   for (let error in errors) {
     flattenError(errors[error], e);

@@ -12,7 +12,11 @@ module.exports = class Embed {
     this.description = data.description ?? undefined;
     this.url = data.url ?? undefined;
     this.timestamp = data.timestamp ?? undefined;
-    this.color = data.color ?? undefined;
+    let color;
+    if (typeof color === "string")
+      if (color.startsWith("#")) color = parseInt(color.replace(/^#/, ""), 16);
+      else color = parseInt(color);
+    this.color = color ?? undefined;
     this.footer = data.footer ?? undefined;
     this.image = data.image ?? undefined;
     this.thumbnail = data.thumbnail ?? undefined;

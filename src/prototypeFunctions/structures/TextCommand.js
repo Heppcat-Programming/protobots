@@ -58,82 +58,111 @@ module.exports = class TextCommand {
   }
   _createResponse(args, message) {
     if (this.response instanceof Embed) {
-      return new Embed(
-        JSON.parse(
-          JSON.stringify(this.response.toJson()).replace(
-            /{[a-z0-9]+((\[[a-z0-9]+\])?)+}/gi,
-            function (match) {
-              let i = match.replace(/{|}/g, "").replace(/\[[a-z]+]/gi, "");
-              let b = match.replace(/{|}/g, "");
-              switch (i) {
-                case "arg":
-                  let index = Number(b.replace("arg", ""));
-                  if (args[index]) return args[index];
-                  else return match;
-                case "message":
-                  let current = message;
-                  match
-                    .replace(/{|}/g, "")
-                    .match(/\[[a-z]+]/gi)
-                    ?.forEach((e) => {
-                      e = e.replace(/\[|\]/g, "");
-                      current = current[e];
-                    });
-                  return current;
-                case "channel":
-                  let channel = message.getChannel();
-                  let c = channel;
-                  match
-                    .replace(/{|}/g, "")
-                    .match(/\[[a-z]+]/gi)
-                    ?.forEach((e) => {
-                      e = e.replace(/\[|\]/g, "");
-                      c = c[e];
-                    });
-                  return c;
-                case "guild":
-                  let guild = message.getGuild();
-                  let g = guild;
-                  match
-                    .replace(/{|}/g, "")
-                    .match(/\[[a-z]+]/gi)
-                    ?.forEach((e) => {
-                      e = e.replace(/\[|\]/g, "");
-                      g = g[e];
-                    });
-                  return g;
-              }
-              if (b.startsWith("arg")) {
+      let resp = JSON.stringify(this.response.toJson());
+      let matches = resp.match(/{[a-z0-9]+((\[[a-z0-9]+\])?)+}/gi);
+      return new Promise(async function (resolve, reject) {
+        await Promise.all(
+          matches.map(async function (match) {
+            let i = match.replace(/{|}/g, "").replace(/\[[a-z]+]/gi, "");
+            let b = match.replace(/{|}/g, "");
+            switch (i) {
+              case "arg":
                 let index = Number(b.replace("arg", ""));
-                if (args[index]) return args[index];
-              } else {
-              }
+                if (args[index]) resp.replace(match, args[index]);
+                else break;
+              case "message":
+                let current = message;
+                match
+                  .replace(/{|}/g, "")
+                  .match(/\[[a-z]+]/gi)
+                  ?.forEach((e) => {
+                    e = e.replace(/\[|\]/g, "");
+                    current = current[e];
+                  });
+                resp = resp.replace(match, current);
+                break;
+              case "channel":
+                let channel = await message.getChannel();
+                let c = channel;
+                match
+                  .replace(/{|}/g, "")
+                  .match(/\[[a-z]+]/gi)
+                  ?.forEach((e) => {
+                    e = e.replace(/\[|\]/g, "");
+                    c = c[e];
+                  });
+                resp = resp.replace(match, c);
+                break;
+              case "guild":
+                let guild = await message.getGuild();
+                let g = guild;
+                match
+                  .replace(/{|}/g, "")
+                  .match(/\[[a-z]+]/gi)
+                  ?.forEach((e) => {
+                    e = e.replace(/\[|\]/g, "");
+                    g = g[e];
+                  });
+                resp = resp.replace(match, g);
+                break;
             }
-          )
-        )
-      );
+          })
+        );
+        resolve(new Embed(JSON.parse(resp)));
+      });
     } else {
-      return this.response.replace(
-        /{[a-z0-9]+((\[[a-z0-9]+\])?)+}/gi,
-        function (match) {
-          let i = match.replace(/{|}/g, "").replace(/\[[a-z]+]/gi, "");
-          let b = match.replace(/{|}/g, "");
-          if (b.startsWith("arg")) {
-            let index = Number(b.replace("arg", ""));
-            if (args[index]) return args[index];
-          } else {
-            let current = message[i];
-            match
-              .replace(/{|}/g, "")
-              .match(/\[[a-z]+]/gi)
-              ?.forEach((e) => {
-                e = e.replace(/\[|\]/g, "");
-                current = current[e];
-              });
-            return current;
-          }
-        }
-      );
+      let resp = this.response;
+      let matches = resp.match(/{[a-z0-9]+((\[[a-z0-9]+\])?)+}/gi);
+      return new Promise(async function (resolve, reject) {
+        await Promise.all(
+          matches.map(async function (match) {
+            let i = match.replace(/{|}/g, "").replace(/\[[a-z]+]/gi, "");
+            let b = match.replace(/{|}/g, "");
+            switch (i) {
+              case "arg":
+                let index = Number(b.replace("arg", ""));
+                if (args[index]) resp.replace(match, args[index]);
+                else break;
+              case "message":
+                let current = message;
+                match
+                  .replace(/{|}/g, "")
+                  .match(/\[[a-z]+]/gi)
+                  ?.forEach((e) => {
+                    e = e.replace(/\[|\]/g, "");
+                    current = current[e];
+                  });
+                resp = resp.replace(match, current);
+                break;
+              case "channel":
+                let channel = await message.getChannel();
+                let c = channel;
+                match
+                  .replace(/{|}/g, "")
+                  .match(/\[[a-z]+]/gi)
+                  ?.forEach((e) => {
+                    e = e.replace(/\[|\]/g, "");
+                    c = c[e];
+                  });
+                resp = resp.replace(match, c);
+                break;
+              case "guild":
+                let guild = await message.getGuild();
+                let g = guild;
+                match
+                  .replace(/{|}/g, "")
+                  .match(/\[[a-z]+]/gi)
+                  ?.forEach((e) => {
+                    e = e.replace(/\[|\]/g, "");
+                    g = g[e];
+                  });
+                resp = resp.replace(match, g);
+                break;
+            }
+          })
+        );
+        resolve(resp);
+      });
     }
   }
 };

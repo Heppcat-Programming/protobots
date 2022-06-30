@@ -1,5 +1,6 @@
 const fetch = require("node-fetch");
 let Client = require("../Client/Client");
+let Embed = require("../Structures/Embed");
 let DiscordAPIError = require("../Errors/DiscordAPI");
 module.exports = class Request {
   /**
