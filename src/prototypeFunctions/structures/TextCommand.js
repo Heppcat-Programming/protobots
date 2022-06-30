@@ -65,19 +65,48 @@ module.exports = class TextCommand {
             function (match) {
               let i = match.replace(/{|}/g, "").replace(/\[[a-z]+]/gi, "");
               let b = match.replace(/{|}/g, "");
+              switch (i) {
+                case "arg":
+                  let index = Number(b.replace("arg", ""));
+                  if (args[index]) return args[index];
+                  else return match;
+                case "message":
+                  let current = message;
+                  match
+                    .replace(/{|}/g, "")
+                    .match(/\[[a-z]+]/gi)
+                    ?.forEach((e) => {
+                      e = e.replace(/\[|\]/g, "");
+                      current = current[e];
+                    });
+                  return current;
+                case "channel":
+                  let channel = message.getChannel();
+                  let c = channel;
+                  match
+                    .replace(/{|}/g, "")
+                    .match(/\[[a-z]+]/gi)
+                    ?.forEach((e) => {
+                      e = e.replace(/\[|\]/g, "");
+                      c = c[e];
+                    });
+                  return c;
+                case "guild":
+                  let guild = message.getGuild();
+                  let g = guild;
+                  match
+                    .replace(/{|}/g, "")
+                    .match(/\[[a-z]+]/gi)
+                    ?.forEach((e) => {
+                      e = e.replace(/\[|\]/g, "");
+                      g = g[e];
+                    });
+                  return g;
+              }
               if (b.startsWith("arg")) {
                 let index = Number(b.replace("arg", ""));
                 if (args[index]) return args[index];
               } else {
-                let current = message[i];
-                match
-                  .replace(/{|}/g, "")
-                  .match(/\[[a-z]+]/gi)
-                  ?.forEach((e) => {
-                    e = e.replace(/\[|\]/g, "");
-                    current = current[e];
-                  });
-                return current;
               }
             }
           )

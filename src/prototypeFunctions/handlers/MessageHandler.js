@@ -26,7 +26,7 @@ module.exports = class MessageHandler {
       let args = msg.slice(this.cmdManager.prefix.length).trim().split(/ +/);
       let command = args.shift().toLowerCase();
       if (this.cmdManager.hasCommand(command)) {
-        this.cmdManager.respondToCommand(command, args, message);
+        this.cmdManager._respondToCommand(command, args, message);
       }
     }
   }
