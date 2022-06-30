@@ -1,5 +1,4 @@
 const User = require("./User");
-const Guild = require("./Guild");
 const Request = require("../Util/Request");
 
 module.exports = class Message {
@@ -25,12 +24,19 @@ module.exports = class Message {
       switch (field) {
         case "channel_id":
           this._channelId = data[field];
+          break;
         case "author":
           this.author = new User(data[field]);
+          break;
+        case "member":
+          this.member = new User(data[field]);
+          break;
         case "guild_id":
           this._guildId = data[field];
+          break;
         default:
           this[field] = data[field];
+          break;
       }
     }
   }
@@ -46,20 +52,36 @@ module.exports = class Message {
         return new Channel(c, this.client);
       });
   }
+  async getGuild() {
+    if (!this._guildId) return undefined;
+    return new Request({
+      client: this.client,
+      endpoint: "guilds/" + this._guildId,
+      method: "GET",
+    })
+      .call()
+      .then((g) => {
+        let Guild = require("./Guild");
+        return new Guild(g, this.client);
+      });
+  }
   async reply(message) {
+    let data = {
+      message_reference: {
+        message_id: this.id,
+        guild_id: this._guildId,
+        fail_if_not_exists: false,
+      },
+    };
+    let Embed = require("./Embed");
+    if (message instanceof Embed) data["embeds"] = [message.toJson()];
+    else data["content"] = message;
     return new Promise((resolve) => {
       new Request({
         client: this.client,
         endpoint: "channels/" + this._channelId + "/messages",
         method: "POST",
-        data: {
-          content: message,
-          message_reference: {
-            message_id: this.id,
-            guild_id: this._guildId,
-            fail_if_not_exists: false,
-          },
-        },
+        data: data,
       })
         .call()
         .then((m) => {

@@ -57,6 +57,28 @@ module.exports = class Client extends EventEmitter {
     return this.intents;
   }
 
+  /**
+   * Get Guild
+   * @param {String} id The id of the guild
+   * @returns {Guild} The guild
+   * @throws {ReferenceError} If the id is not provided
+   * @throws {TypeError} If the id is not a String
+   */
+  async getGuild(id) {
+    if (!id) throw new ReferenceError("Id is required");
+    if (typeof id != "string") throw new TypeError("Id must be a String");
+    return new Request({
+      client: this,
+      endpoint: "guilds/" + id,
+      method: "GET",
+    })
+      .call()
+      .then((g) => {
+        let Guild = require("./Guild");
+        return new Guild(g, this);
+      });
+  }
+
   login(token) {
     this.token = token;
     this.ws = new WebSocketManager(this);
